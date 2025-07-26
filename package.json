@@ -7,7 +7,9 @@
     "start": "bun index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@tailwindcss/cli": "^4.1.11",
+    "@types/bun": "latest",
+    "tailwindcss": "^4.1.11"
   },
   "peerDependencies": {
     "typescript": "^5"

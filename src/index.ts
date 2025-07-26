@@ -1,7 +1,7 @@
 import { renderTwigToHtml } from "./renderer";
 import type { Block } from "./types";
 
-const testBlocks = [
+const testBlocks: Block[] = [
   {
     type: "paragraph",
     content: [
@@ -34,18 +34,40 @@ const testBlocks = [
   },
   {
     type: "heading",
-    level: 5,
+    level: 1,
     content: [
       {
         type: "text",
-        text: "This is a Heading",
+        text: "This is a Heading 1",
         marks: [],
       },
     ],
   },
-  { 
+  {
+    type: "heading",
+    level: 4,
+    content: [
+      {
+        type: "text",
+        text: "This is a Heading with strikethrough",
+        marks: ["strikethrough"],
+      },
+    ],
+  },
+  {
+    type: "heading",
+    level: 2,
+    content: [
+      {
+        type: "text",
+        text: "This is a Heading 2 with underline",
+        marks: ["underline"],
+      },
+    ],
+  },
+  {
     type: "list",
-    listType: "ol",
+    listType: "ul",
     listItems: [
       {
         type: "listItem",
@@ -65,4 +87,14 @@ const testBlocks = [
   },
 ];
 
-console.log(renderTwigToHtml(testBlocks as unknown as Block[]));
+const wrapper = (blocks: Block[]): string => {
+  return `<div class="twig-wrapper">${renderTwigToHtml(blocks)}</div>`;
+};
+if (typeof document !== "undefined") {
+  const renderer = document.getElementById("renderer")!;
+  if (renderer) {
+    renderer.innerHTML = wrapper(testBlocks);
+  }
+} else {
+  console.log(wrapper(testBlocks));
+}
