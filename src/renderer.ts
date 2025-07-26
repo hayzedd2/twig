@@ -1,65 +1,59 @@
-import type { Block, BlockContent, Mark } from "./types";
-import { validateBlock } from "./validator";
+import type { Block, BlockContent, ListBlock } from "./types";
 
 const renderTwig = (content: BlockContent[]) => {
-  return content
-    .map((span) => {
-      let html = span.text;
-      if (span.marks.includes("bold"))
-        html = `<strong class="bold">${html}</strong>`;
-      if (span.marks.includes("italic"))
-        html = `<em class="twig-italic">${html}</em>`;
-      if (span.marks.includes("underline"))
-        html = `<span class="twig-underline">${html}</span>`;
-      if (span.marks.includes("strikethrough"))
-        html = `<s class="twig-strikethrough">${html}</s>`;
-      return html;
-    })
-    .join("");
+  const MARK_RENDERERS = {
+    bold: (text: string) => `<strong class="twig-bold">${text}</strong>`,
+    italic: (text: string) => `<em class="twig-italic">${text}</em>`,
+    underline: (text: string) => `<span class="twig-underline">${text}</span>`,
+    strikethrough: (text: string) =>
+      `<s class="twig-strikethrough">${text}</s>`,
+  } as const;
+
+  const renderSpan = (span: BlockContent) => {
+    let html = span.text;
+    for (const mark of span.marks) {
+      const renderer = MARK_RENDERERS[mark];
+      if (renderer) {
+        html = renderer(html);
+      }
+    }
+    switch (span.type) {
+      case "text":
+        return html;
+      case "link":
+        return `<a href="${span.url}" class="twig-link">${html}</a>`;
+      default:
+        return html;
+    }
+  };
+
+  return content.map(renderSpan).join("");
 };
 
-const renderMark = (mark: Mark[], text: string) => {
-  if (mark.includes("bold")) {
-    return `<strong class="bold">${text}</strong>`;
-  }
-  if (mark.includes("italic")) {
-    return `<em class="twig-italic">${text}</em>`;
-  }
-  if (mark.includes("underline")) {
-    return `<span class="twig-underline">${text}</span>`;
-  }
-  if (mark.includes("strikethrough")) {
-    return `<s class="twig-strikethrough">${text}</s>`;
-  }
-  return text;
+const renderListBlock = (block: ListBlock): string => {
+  const tag = block.listType === "ul" ? "ul" : "ol";
+  const className = `twig-${block.listType}`;
+  const items = block.listItems
+    .map((listItem) => {
+      const itemContent = renderTwig(listItem.content);
+      return `<li class="twig-list-item">${itemContent}</li>`;
+    })
+    .join("");
+  return `<${tag} class="${className}">${items}</${tag}>`;
 };
 
 export const renderTwigToHtml = (blocks: Block[]): string => {
   return blocks
     .map((block) => {
-      const validatedBlock = validateBlock(block);
-      if (!validatedBlock) {
-        throw new Error("Invalid block");
-      }
-      switch (validatedBlock.type) {
+      switch (block.type) {
         case "paragraph":
-          return `<p>${renderTwig(validatedBlock.content)}</p>`;
+          return `<p>${renderTwig(block.content)}</p>`;
         case "heading":
-          return `<h${validatedBlock.level}>${renderTwig(
-            validatedBlock.content
-          )}</h${validatedBlock.level}>`;
+          const level = block.level;
+          return `<h${level}>${renderTwig(block.content)}</h${level}>`;
         case "list":
-          return `<${validatedBlock.listType}>
-          ${validatedBlock.listItems
-            .map((item) => {
-              return item.content
-                .map((content) => {
-                  return `<li>${renderMark(content.marks, content.text)}</li>`;
-                })
-                .join("");
-            })
-            .join("")}
-          </${validatedBlock.listType}>`;
+          return renderListBlock(block);
+
         default:
           return "";
       }

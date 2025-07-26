@@ -59,8 +59,9 @@ const testBlocks: Block[] = [
     level: 2,
     content: [
       {
-        type: "text",
-        text: "This is a Heading 2 with underline",
+        type: "link",
+        url: "https://www.google.com",
+        text: "This is a Heading 2 with underline and link",
         marks: ["underline"],
       },
     ],
@@ -72,18 +73,38 @@ const testBlocks: Block[] = [
       {
         type: "listItem",
         content: [
-          { type: "text", text: "Item 1", marks: ["bold"] },
-          { type: "text", text: "Item 2", marks: ["italic"] },
+          {
+            type: "link",
+            url: "https://www.google.com",
+            text: "Go to google",
+            marks: ["bold"],
+          },
         ],
       },
       {
         type: "listItem",
+        content: [{ type: "text", text: "Item 2", marks: ["italic"] }],
+      },
+      {
+        type: "listItem",
+        content: [{ type: "text", text: "Item 3", marks: [] }],
+      },
+      {
+        type: "listItem",
         content: [
-          { type: "text", text: "Pawpaw", marks: [] },
-          { type: "text", text: "Orange", marks: [] },
+          {
+            type: "link",
+            url: "https://www.google.com",
+            text: "Item 4",
+            marks: [],
+          },
         ],
       },
     ],
+  },
+  {
+    type: "quote",
+    quote: "I said this!",
   },
 ];
 
