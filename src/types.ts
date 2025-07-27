@@ -5,8 +5,8 @@ export type SupportedBlockType =
   | "code"
   | "quote";
 export type Mark = "bold" | "italic" | "underline" | "strikethrough";
-type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
-type ListType = "ul" | "ol";
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+export type ListType = "ul" | "ol";
 
 export interface BlockContent {
   type: "text" | "link";

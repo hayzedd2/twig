@@ -1,0 +1,25 @@
+# Source files
+src/
+*.ts
+*.tsx
+
+# Development files
+index.html
+tsconfig.json
+bun.lockb
+
+# Build artifacts (keep dist/)
+*.log
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+
+# Test files
+test/
+__tests__/
+*.test.*
+*.spec.*
+
+

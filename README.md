@@ -1,6 +1,16 @@
-Twig
+# @xylogeist/twig
 
-A lightweight TypeScript-based content renderer that converts structured block data into HTML with support for rich text formatting.
+A lightweight TypeScript renderer that converts structured block-based content(from an editor) into HTML.
+
+## Installation
+
+```bash
+npm install @xylogeist/twig
+# or
+yarn add @xylogeist/twig
+# or
+bun add @xylogeist/twig
+```
 
 ## Features
 
@@ -30,8 +40,8 @@ Each text block supports the following marks:
 ### Basic Example
 
 ```typescript
-import { renderTwigToHtml } from "./renderer";
-import type { Block } from "./types";
+import { renderTwigToHtml } from "@xylogeist/twig";
+import type { Block } from "@xylogeist/twig";
 
 const blocks: Block[] = [
   {
@@ -100,10 +110,6 @@ bun --hot index.html
 ## Roadmap
 
 - [ ] Add support for code blocks
-- [ ] Add support for blockquotes
 - [ ] Add support for images
 - [ ] Add support for links
 - [ ] Add support for tables
-- [ ] Add support for custom components
-- [ ] Add unit tests
-- [ ] Add performance optimizations

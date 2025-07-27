@@ -1,15 +1,52 @@
 {
-  "name": "twig",
-  "module": "index.ts",
-  "main": "index.ts",
+  "name": "@xylogeist/twig",
+  "version": "1.0.0",
   "type": "module",
+  "description": "A lightweight TypeScript renderer that converts structured block-based content(from an editor) into HTML.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "renderer",
+    "html",
+    "typescript",
+    "content",
+    "blocks",
+    "rich-text",
+    "markdown",
+    "twig"
+  ],
+  "author": "Alhameen",
+  "license": "MIT",
+      "repository": {
+      "type": "git",
+      "url": "https://github.com/xylogeist/twig.git"
+    },
+      "bugs": {
+      "url": "https://github.com/xylogeist/twig/issues"
+    },
+    "homepage": "https://github.com/xylogeist/twig#readme",
   "scripts": {
-    "start": "bun index.ts"
+    "build": "bun build src/index.ts --outdir dist --target node --format esm",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "bun run build && bun run build:types",
+    "test": "bun test",
+    "dev": "bun --hot index.html"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.11",
     "@types/bun": "latest",
-    "tailwindcss": "^4.1.11"
+    "typescript": "^5"
   },
   "peerDependencies": {
     "typescript": "^5"
